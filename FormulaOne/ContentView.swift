@@ -11,21 +11,13 @@ struct ContentView: View {
     
     @State var results = [Teams]()
     
-    let loadData = LoadData()
-    
     var body: some View {
         Button("Load") {
-            Task {
-                loadData.endPoint = "rankings/teams?season=2022"
-                do {
-                    await loadData.LoadDataNow()
-                    print(loadData.responsStatus)
-                }
-                if loadData.responsStatus {
-                    loadData.DataToFOneAPI()
-                    results = loadData.fOneAPI!
-                    print("results")
-                }
+            let loadData = LoadData()
+            loadData.endPoint = "rankings/teams?season=2022"
+            loadData.LoadDataNow{
+                (teams) in self.results = teams
+                print(results)
             }
         }
     }
