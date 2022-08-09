@@ -17,7 +17,7 @@ struct FOneAPI: Codable {
  
 struct Teams: Codable {
     let position: Double
-    let points: Double
+    let points: Int
     let season: Double
     let team: Team
     
