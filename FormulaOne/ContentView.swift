@@ -48,7 +48,7 @@ struct ContentView: View {
                                     .font(.headline.weight(.semibold))
                             }
                             ForEach(results, id: \.team.id) { team in
-                                NavigationLink(destination: TeamDetailView()) {
+                                NavigationLink(destination: TeamDetailView(standing: Int(team.position), teamId: Int(team.team.id), points: team.points)) {
                                     TeamsListRow(team: team).padding()
                                 }
                                 Divider()

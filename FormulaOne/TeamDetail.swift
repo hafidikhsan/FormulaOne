@@ -20,6 +20,7 @@ struct Detail: Codable {
     let name: String
     let logo: String
     let base: String
+    let first_team_entry: Int
     let world_championships: Int
     let pole_positions: Int
     let fastest_laps: Int
@@ -35,6 +36,7 @@ struct Detail: Codable {
         case name = "name"
         case logo = "logo"
         case base = "base"
+        case first_team_entry = "first_team_entry"
         case world_championships = "world_championships"
         case pole_positions = "pole_positions"
         case fastest_laps = "fastest_laps"
