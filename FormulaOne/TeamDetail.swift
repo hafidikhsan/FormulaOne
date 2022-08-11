@@ -9,9 +9,11 @@ import Foundation
 
 struct TeamDetail: Codable {
     let response: [Detail]
+    let results: Int
     
     enum CodingKeys: String, CodingKey {
         case response = "response"
+        case results = "results"
     }
 }
  

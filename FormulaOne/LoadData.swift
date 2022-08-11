@@ -7,7 +7,7 @@
 
 import Foundation
 
-class LoadData {
+class LoadData: ObservableObject {
     let url = "https://v1.formula-1.api-sports.io/"
     let apiKeyHeader = "x-rapidapi-key"
     let apiKey = "447f7e6c3351cc529ad5ceeb8ed52c1a"
@@ -19,8 +19,11 @@ class LoadData {
     var fOneAPI: [Teams]?
     var fOneAPIDetail: [Detail]?
     
+    @Published var isError = false
+    
     func LoadDataNow(completion:@escaping ([Teams]) -> ()) {
-        guard let url = URL(string: url+endPoint) else { fatalError("Invalid URL") }
+        self.isError = false
+        guard let url = URL(string: url+endPoint) else { self.isError = true; fatalError("Invalid URL") }
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
@@ -29,7 +32,7 @@ class LoadData {
          
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
-                guard let response = response as? HTTPURLResponse, let data = data else { return }
+                guard let response = response as? HTTPURLResponse, let data = data else { self.isError = true; return }
                 
                 if response.statusCode == 200 {
                     
@@ -37,23 +40,30 @@ class LoadData {
                     
                     if let fOne = try? decoder.decode(FOneAPI.self, from: data) as FOneAPI {
                         completion(fOne.response)
-                        print("SUCCESS: Success Decode JSON")
+                        if (fOne.results != 0) {
+                            print("SUCCESS: Success Decode JSON")
+                        } else {
+                            self.isError = true
+                        }
                     } else {
+                        self.isError = true
                         print("ERROR: Can't Decode JSON")
                     }
                     
                 } else {
+                    self.isError = true
                     print("ERROR: \(data), HTTP Status: \(response.statusCode)")
                 }
             }
         }
          
         task.resume()
+        print(isError)
     }
     
     func LoadDetail(completion:@escaping ([Detail]) -> ()) {
-        print(url+endPoint)
-        guard let url = URL(string: url+endPoint) else { fatalError("Invalid URL") }
+        self.isError = false
+        guard let url = URL(string: url+endPoint) else { self.isError = true; fatalError("Invalid URL") }
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
@@ -62,7 +72,7 @@ class LoadData {
          
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
-                guard let response = response as? HTTPURLResponse, let data = data else { return }
+                guard let response = response as? HTTPURLResponse, let data = data else { self.isError = true; return }
                 
                 if response.statusCode == 200 {
                     
@@ -70,12 +80,18 @@ class LoadData {
                     
                     if let fOne = try? decoder.decode(TeamDetail.self, from: data) as TeamDetail {
                         completion(fOne.response)
-                        print("SUCCESS: Success Decode JSON")
+                        if (fOne.results != 0) {
+                            print("SUCCESS: Success Decode JSON")
+                        } else {
+                            self.isError = true
+                        }
                     } else {
+                        self.isError = true
                         print("ERROR: Can't Decode JSON")
                     }
                     
                 } else {
+                    self.isError = true
                     print("ERROR: \(data), HTTP Status: \(response.statusCode)")
                 }
             }

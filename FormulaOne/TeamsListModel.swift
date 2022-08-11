@@ -6,12 +6,15 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct FOneAPI: Codable {
     let response: [Teams]
+    let results: Int
     
     enum CodingKeys: String, CodingKey {
         case response = "response"
+        case results = "results"
     }
 }
  

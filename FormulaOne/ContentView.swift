@@ -11,18 +11,22 @@ struct ContentView: View {
     
     @State var results = [Teams]()
     
-    var loadData = LoadData()
+    @ObservedObject var loadData = LoadData()
     
     var body: some View {
         if (results.isEmpty) {
-            ZStack {
-                Color.white
-                ProgressView()
-            }
-            .task {
-                loadData.endPoint = "rankings/teams?season=2022"
-                loadData.LoadDataNow{
-                    (teams) in self.results = teams
+            if (loadData.isError == true) {
+                ErrorView()
+            } else {
+                ZStack {
+                    Color.white
+                    ProgressView()
+                }
+                .task {
+                    loadData.endPoint = "rankings/teams?season=2022"
+                    loadData.LoadDataNow{
+                        (teams) in self.results = teams
+                    }
                 }
             }
         } else {
@@ -60,14 +64,16 @@ struct ContentView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
                 .toolbar {
-                    Image("HafidIkhsanA")
-                        .resizable()
-                        .frame(width: 40, height: 40)
-                        .clipShape(Circle())
-                        .padding()
-                        .overlay(Circle()
-                            .stroke(Color.white, lineWidth: 3)
-                            .padding())
+                    NavigationLink(destination: AboutView()) {
+                        Image("HafidIkhsanA")
+                            .resizable()
+                            .frame(width: 40, height: 40)
+                            .clipShape(Circle())
+                            .padding()
+                            .overlay(Circle()
+                                .stroke(Color.white, lineWidth: 3)
+                                .padding())
+                    }
                 }
             }
         }

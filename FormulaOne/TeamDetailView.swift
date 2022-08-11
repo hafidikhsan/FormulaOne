@@ -14,18 +14,22 @@ struct TeamDetailView: View {
     var teamId: Int
     var points: Int
     
-    var loadData = LoadData()
+    @ObservedObject var loadData = LoadData()
     
     var body: some View {
         if (results.isEmpty) {
-            ZStack {
-                Color.white
-                ProgressView()
-            }
-            .task {
-                loadData.endPoint = "teams?id=\(teamId)"
-                loadData.LoadDetail{
-                    (teams) in self.results = teams
+            if (loadData.isError == true) {
+                ErrorView()
+            } else {
+                ZStack {
+                    Color.white
+                    ProgressView()
+                }
+                .task {
+                    loadData.endPoint = "teams?id=\(teamId)"
+                    loadData.LoadDetail{
+                        (teams) in self.results = teams
+                    }
                 }
             }
         } else {
