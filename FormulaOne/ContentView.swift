@@ -10,51 +10,67 @@ import SwiftUI
 struct ContentView: View {
     
     @State var results = [Teams]()
-    @State var image = ""
     
-    let loadData = LoadData()
+    var loadData = LoadData()
     
     var body: some View {
-        NavigationView{
-            List(results, id:\.team.id) { teams in
-                ZStack {
-                    VStack {
-                        HStack {
-                            AsyncImage(url: URL(string: teams.team.logo)) { image in
-                                image.resizable()
-                            } placeholder: {
-                                ProgressView()
-                            }                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 80, height: 80)
-                            VStack(alignment: .leading) {
-                                Text(teams.team.name)
-                                    .font(
-                                        .title2
-                                        .weight(.bold)
-                                    )
-                                    .lineLimit(2)
-                                Spacer()
-                                    .frame(height: 15)
-                                Text("\(teams.points) Points")
-                                    .font(.system(size: 16))
-                                    .lineLimit(1)
-                            } .padding(.leading, 8)
-                            
-                        }
-                    }
-                }
+        if (results.isEmpty) {
+            ZStack {
+                Color.white
+                ProgressView()
             }
             .task {
                 loadData.endPoint = "rankings/teams?season=2022"
                 loadData.LoadDataNow{
                     (teams) in self.results = teams
-                    self.image = teams[0].team.logo
-                    print(results)
                 }
             }
-            .navigationBarTitle(Text("F1 Ranking"), displayMode: .inline)
+        } else {
+            NavigationView {
+                ZStack(alignment: .top) {
+                    Color.white.ignoresSafeArea()
+                    Image("Hero")
+                        .resizable()
+                        .frame(height: 280)
+                        .frame(maxWidth: .infinity)
+                        .ignoresSafeArea()
+                    ScrollView {
+                        Spacer()
+                            .frame(height: 100)
+                        VStack(alignment: .leading) {
+                            HStack {
+                                Image("F1Logo")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(height: 30)
+                                    .padding()
+                                Text("Team Standing")
+                                    .font(.headline.weight(.semibold))
+                            }
+                            ForEach(results, id: \.team.id) { team in
+                                NavigationLink(destination: TeamDetailView()) {
+                                    TeamsListRow(team: team).padding()
+                                }
+                                Divider()
+                            }
+                        }.background(Color.white)
+                            .clipShape(RoundedRectangle(cornerRadius: 30))
+                            .shadow(radius: 20, y: -40)
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                }
+                .toolbar {
+                    Image("HafidIkhsanA")
+                        .resizable()
+                        .frame(width: 40, height: 40)
+                        .clipShape(Circle())
+                        .padding()
+                        .overlay(Circle()
+                            .stroke(Color.white, lineWidth: 3)
+                            .padding())
+                }
+            }
         }
-        
     }
 }
 
