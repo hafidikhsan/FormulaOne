@@ -14,7 +14,7 @@ struct AboutView: View {
                             .clipShape(Circle())
                             .overlay(Circle()
                                 .stroke(Color.white, lineWidth: 3))
-                        Text("Hafid ikhsan Arifin")
+                        Text("Hafid Ikhsan Arifin")
                             .font(.title2.weight(.bold))
                             .padding(.top)
                         Text("Dicoding Academy iOS Developer")
