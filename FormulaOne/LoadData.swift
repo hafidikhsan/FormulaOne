@@ -29,7 +29,7 @@ class LoadData: ObservableObject {
         request.httpMethod = "GET"
         request.setValue(apiKey, forHTTPHeaderField: apiKeyHeader)
         request.setValue(host, forHTTPHeaderField: hostHeader)
-         
+        
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
                 guard let response = response as? HTTPURLResponse, let data = data else { self.isError = true; return }
@@ -56,9 +56,8 @@ class LoadData: ObservableObject {
                 }
             }
         }
-         
+        
         task.resume()
-        print(isError)
     }
     
     func LoadDetail(completion:@escaping ([Detail]) -> ()) {
@@ -69,7 +68,7 @@ class LoadData: ObservableObject {
         request.httpMethod = "GET"
         request.setValue(apiKey, forHTTPHeaderField: apiKeyHeader)
         request.setValue(host, forHTTPHeaderField: hostHeader)
-         
+        
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
                 guard let response = response as? HTTPURLResponse, let data = data else { self.isError = true; return }
@@ -96,7 +95,7 @@ class LoadData: ObservableObject {
                 }
             }
         }
-         
+
         task.resume()
     }
     

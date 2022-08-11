@@ -40,18 +40,18 @@ struct TeamDetailView: View {
                         VStack {
                             Spacer().frame(height: 80)
                             AsyncImage(url: URL(string: results[0].logo)) { image in
-                                    image.resizable()
-                                } placeholder: {
-                                    ProgressView()
-                                }
-                                .scaledToFit()
-                                .frame(width: 130, height: 130)
-                                .background(Color.white)
-                                .clipShape(Circle())
-                                .overlay(Circle()
-                                    .stroke(Color.white, lineWidth: 5)
-                                )
-                                .shadow(radius: 10)
+                                image.resizable()
+                            } placeholder: {
+                                ProgressView()
+                            }
+                            .scaledToFit()
+                            .frame(width: 130, height: 130)
+                            .background(Color.white)
+                            .clipShape(Circle())
+                            .overlay(Circle()
+                                .stroke(Color.white, lineWidth: 5)
+                            )
+                            .shadow(radius: 10)
                             Text(results[0].name)
                                 .font(.title2.weight(.bold))
                                 .padding(.top)
