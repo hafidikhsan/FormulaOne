@@ -1,10 +1,3 @@
-//
-//  AboutView.swift
-//  FormulaOne
-//
-//  Created by Hafid Ikhsan Arifin on 11/08/22.
-//
-
 import SwiftUI
 
 struct AboutView: View {

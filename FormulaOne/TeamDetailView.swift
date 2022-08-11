@@ -1,10 +1,3 @@
-//
-//  TeamDetailView.swift
-//  FormulaOne
-//
-//  Created by Hafid Ikhsan Arifin on 10/08/22.
-//
-
 import SwiftUI
 
 struct TeamDetailView: View {

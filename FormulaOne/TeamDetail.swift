@@ -1,10 +1,3 @@
-//
-//  TeamDetail.swift
-//  FormulaOne
-//
-//  Created by Hafid Ikhsan Arifin on 10/08/22.
-//
-
 import Foundation
 
 struct TeamDetail: Codable {
